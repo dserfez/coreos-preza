@@ -1,0 +1,288 @@
+{
+  "slides": [
+    {
+      "components": [
+        {
+          "TextBox": {},
+          "x": 429,
+          "y": 252,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "type": "TextBox",
+          "text": "CoreOS<br>",
+          "size": 96,
+          "selected": false
+        },
+        {
+          "src": "http://i.imgur.com/vFv47pb.png",
+          "type": "Image",
+          "x": 176,
+          "y": 203,
+          "scale": {
+            "x": 0.24531250000000002,
+            "y": 0.24531250000000002,
+            "width": 157,
+            "height": 157
+          },
+          "imageType": "PNG",
+          "selected": false
+        },
+        {
+          "TextBox": {},
+          "x": 294,
+          "y": 414,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "type": "TextBox",
+          "text": "Introduction",
+          "size": 72,
+          "selected": false
+        }
+      ],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 0,
+      "selected": false,
+      "active": false,
+      "x": 180,
+      "y": 180
+    },
+    {
+      "components": [
+        {
+          "TextBox": {},
+          "x": 92,
+          "y": 74,
+          "scale": {
+            "x": 1,
+            "y": 1
+          },
+          "type": "TextBox",
+          "text": "<br>",
+          "size": 72,
+          "selected": false
+        }
+      ],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 1,
+      "selected": false,
+      "active": true,
+      "markdown": "# About me\n\n* history:\n    * Telecommunications (remember this? **PHONE**)\n    * IP Networking\n    * Information Security\n* present:\n    * DevOps [wannabe]\n      * Using Docker for the last year and a half\n      * Running Docker natively on all machines",
+      "x": 460,
+      "y": 180
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 2,
+      "selected": false,
+      "active": false,
+      "markdown": "## CoreOS\n\n* distributed containers\n* configuration in etcd\n",
+      "x": 740,
+      "y": 180
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 3,
+      "selected": false,
+      "active": false,
+      "markdown": "## Cloud Config\n\n* handles early initialization of a cloud instance\n* configure fleet, etcd, flannel\n* create users\n* write files\n* Whole server configuration in one file\n* Bootable over network (PXE, iPXE coreos-ipxe-server - not mainteined?)\n",
+      "x": 1020,
+      "y": 180
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 4,
+      "selected": false,
+      "active": false,
+      "markdown": "## etcd\n\n* Higly available k/v store\n* Basis for\n    * Configuration management\n    * Service discovery\n* RAFT consensus algorithm\n* Discovery API\n* REST interface\n* Distributed key-value store\n* Like the ol' /etc, but with a HTTP API, running on many nodes, for all to use\n* Initialization\n",
+      "x": 1300,
+      "y": 180
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 5,
+      "selected": false,
+      "active": false,
+      "markdown": "## locksmith\n\n* reboot strategies for CoreOS updates\n* uses etcd for distributed locks\n",
+      "x": 1580,
+      "y": 180
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 6,
+      "selected": false,
+      "active": false,
+      "markdown": "## fleet\n\n* Define and launch containers\n* fleet is systemd for the cluster\n* Utilizes etcd + systemd\n* Layer between etcd and systemd\n* Almost discontinued, not very scalable\n",
+      "x": 1860,
+      "y": 460
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 7,
+      "selected": false,
+      "active": false,
+      "markdown": "## Unit file\n\n```\n[Unit]\nDescription=Storage Service\nRequires=docker.service\n\n[Service]\nRestart=always\nEnvironmentFile=-/etc/environment\nEnvironment=ES_HEAP_SIZE=8g\nExecStartPre=-/usr/bin/docker rm -f %p1\nExecStart=/bin/sh -c \"/usr/bin/docker run --rm --name %p1 -v /opt/data:/data -e ES_HEAP_SIZE=$ES_HEAP_SIZE -p 172.17.42.1:9200:9200 elasticsearch\"\nExecStop=/usr/bin/docker kill %p1\n\n[X-Fleet]\nConflicts=%p@*.service\n```\n",
+      "x": 2140,
+      "y": 460
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 8,
+      "selected": false,
+      "active": false,
+      "markdown": "# \"Linux Containers\" - the \"new\" paradigm\n* Separation of processes, fs, network in Linux kernel instead of having a piece of sw pretending to be HW with a cool name (hypervisor)\n* Linux kernel Built-in Technologies (cgroups,namespaces)\n* \"Similar\" to chroot, jails, solaris zones\n* Docker made it \"usable\" to Developers (DevOps enabler)\n* From hosts running services to containers running one service each (AKA microservices)\n* Host actually doesn't need much more than a Linux kernel with supprted fetures and related user-space apps\n",
+      "x": 2420,
+      "y": 460
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 9,
+      "selected": false,
+      "active": false,
+      "markdown": "# Why a new distro for that?\n* Every up to date Linux distro implicitly runs a Docker capable Linux kernel\n* Linux distro reality:\n* \"Conventional\" Linux distros have more luggage than needed\n    * Why use 'man' in a terminal emulator on a desktop with a running a web browser?\n        * Question: Do you 'man', 'info' or 'google'?\n    * Question: Which distros have Docker in their default repos?\n    * \n    \n* Containers to be treated as 'cattle', not 'pets'\n* What about microservice (application) configuration and data persistance?\n* Persistance of service data is taken care by another microservice (RDBMS, NoSQL, fs)\n\n",
+      "x": 2700,
+      "y": 460
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 10,
+      "selected": false,
+      "active": false,
+      "markdown": "# Release channels\n* alpha\n* beta\n* stable\n",
+      "x": 2980,
+      "y": 460
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 11,
+      "selected": false,
+      "active": false,
+      "markdown": "## locksmith\nReboot manager for the CoreOS update engine\n    etcd-lock - reboot after first taking a lock in etcd.\n    reboot - reboot immediately without taking a lock.\n    best-effort - if etcd is running, then do etcd-lock; otherwise, reboot.\n    off - causes locksmithd to exit and do nothing.\n    ",
+      "x": 3260,
+      "y": 460
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 12,
+      "selected": false,
+      "active": false,
+      "markdown": "# Pros and cons\n## Pros\n* Single file OS config\n* \n\n## Cons\n* fleet\n* ready to use standard service discovery (i.e DNS) instead of having to write etcd get/set-ters\n* No offline install\n* No easy, error proof to configure the one file OS config\n",
+      "x": 3540,
+      "y": 740
+    },
+    {
+      "components": [],
+      "z": 0,
+      "impScale": 3,
+      "rotateX": 0,
+      "rotateY": 0,
+      "rotateZ": 0,
+      "index": 13,
+      "selected": false,
+      "active": false,
+      "x": 3820,
+      "y": 740
+    }
+  ],
+  "activeSlide": {
+    "components": [
+      {
+        "TextBox": {},
+        "x": 92,
+        "y": 74,
+        "scale": {
+          "x": 1,
+          "y": 1
+        },
+        "type": "TextBox",
+        "text": "<br>",
+        "size": 72,
+        "selected": false
+      }
+    ],
+    "z": 0,
+    "impScale": 3,
+    "rotateX": 0,
+    "rotateY": 0,
+    "rotateZ": 0,
+    "index": 1,
+    "selected": false,
+    "active": true,
+    "markdown": "# About me\n\n* history:\n    * Telecommunications (remember this? **PHONE**)\n    * IP Networking\n    * Information Security\n* present:\n    * DevOps [wannabe]\n      * Using Docker for the last year and a half\n      * Running Docker natively on all machines",
+    "x": 460,
+    "y": 180
+  },
+  "fileName": "CoreOS",
+  "deckVersion": "1.0",
+  "customBackgrounds": {
+    "bgs": []
+  },
+  "overviewX": 2000,
+  "overviewY": 460
+}
